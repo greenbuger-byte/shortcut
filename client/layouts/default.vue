@@ -7,9 +7,14 @@
     <v-row>
 <nuxt-link to="/">ШортКэш</nuxt-link>
    <v-spacer></v-spacer>
-
-    <nuxt-link to="/login">Вход</nuxt-link>
-    <nuxt-link to="/register">Регистрация</nuxt-link>
+    <div v-if="is_auth">
+      Привет пользователь, <v-btn>Выйти</v-btn>
+    </div>
+    <div v-else>
+      <nuxt-link to="/login">Вход</nuxt-link>
+      <nuxt-link to="/register">Регистрация</nuxt-link>
+    </div>
+    
     </v-row>
 
   </v-container>
@@ -30,5 +35,10 @@
 
 </template>
 <script>
-export default {}
+export default {
+data:()=>({
+  is_auth: false
+})
+
+}
 </script>

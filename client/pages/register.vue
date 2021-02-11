@@ -19,6 +19,20 @@
 <script>
 import RegistrationComponent  from "../components/registration-component";
 export default{
-components:{ RegistrationComponent}
-}
+components:{ RegistrationComponent},
+ head(){
+      return {
+        title: 'Регистрация на сайте',
+        meta:[
+          // uniquie indefined
+          {
+            hid:'description',
+            name:'description',
+            content:'My custom description'
+          }
+        ]
+      }
+     
+    }
+  }
 </script>

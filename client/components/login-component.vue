@@ -40,8 +40,9 @@
             >
             </v-text-field>
             <v-btn 
+              :loading = "loading" 
               color="warning" 
-              @click="registration">
+              @click="login">
               Войти
             </v-btn>
         </v-form>
@@ -52,6 +53,7 @@
 
       <template v-slot:action="{ attrs }">
         <v-btn
+          
           color="pink"
           text
           v-bind="attrs"
@@ -66,6 +68,7 @@
 <script>
 export default {
     data:()=>( {
+            loading:false,
             show:false,
             email:"",
             password:"",
@@ -78,25 +81,32 @@ export default {
             }
         }
     ),
+   
     methods:{
-      async  registration(){
+      async  login(){
           this.errors.message = "";
           this.errors.email = [];
           this.errors.password = [];
           this.snackbar = false;
-          const fetchJson = await fetch('http://localhost:5000/api/auth/register', {
+          this.loading = true;
+          const fetchJson = await fetch('http://localhost:5000/api/auth/login/', {
               method:"POST",
               headers: { 'Content-Type': 'application/json' },
               body:JSON.stringify({email:this.email, password:this.password})
           });
           const result = await fetchJson.json();
-          if(result.status === true) return console.log("success", result.message);
+          if(result.status === true){
+            /// success logining
+                if(result.token) this.$cookies.set("token", result.token);
+                this.$router.replace({path:'/'});
+          } 
           this.errors.message = result.message;
           this.snackbar = true;
 
           if(result.errors && result.errors.length>0) result.errors.forEach(err => {
             this.errors[err.param].push(err.msg);
           });
+          this.loading = false;
         }
     }
 }

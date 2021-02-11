@@ -62,6 +62,7 @@
             >
             </v-text-field>
             <v-btn 
+                :loading="loading"
                 color="warning"
                 @click="registration"
                 >
@@ -88,6 +89,7 @@
 <script>
 export default {
     data:()=>({
+        loading:false,
         email:"",
         password: "",
         password_review:"",
@@ -111,8 +113,10 @@ export default {
         },
         async registration(){
             this.resetErrors();
+            this.loading = true;
             if(this.password != this.password_review){
                this.errors.password_review[0] = 'Пароли не совпадают';
+               this.loading = false;
                 return; 
             }
             const registration_to_server = await fetch('http://localhost:5000/api/auth/register', {
@@ -121,13 +125,17 @@ export default {
                 body:JSON.stringify({email:this.email, password:this.password})
             });
             const result = await registration_to_server.json();
-            if(result.status === true) return console.log("succes");
+            if(result.status === true){
+                if(result.token) this.$cookies.set("token", result.token);
+                this.$router.replace({path:'/'})
+            } 
             this.errors.message = result.message;
             this.snackbar = true;
             if(result.errors && result.errors.length > 0 )
                 result.errors.forEach(err=>{
                     this.errors[err.param].push(err.msg);
             });
+            this.loading = false;
         }
     }
 }
