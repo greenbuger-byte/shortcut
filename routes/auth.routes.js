@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const {check, validationResult} = require("express-validator");
 const jwt = require("jsonwebtoken");
 const config = require('config');
+const auth = require('../middlewares/auth.middleware');
 // registration on server
 const jsonParser = json();
 router.post(
@@ -43,8 +44,8 @@ router.post(
 router.post(
     "/login",
     [
-        check('email', 'Некорректный email').normalizeEmail().isEmail(),
-        check('password', 'Минимальная длинна пароля 6 символов').exists()
+        jsonParser,
+        check('email', 'Некорректный email').normalizeEmail().isEmail()
     ],
     async (req, res)=>{
     try{
@@ -67,6 +68,11 @@ router.post(
     }
     
 });
-
+router.get("/user", auth, async(req, res)=>{
+    if(!req.auth) return res.status(401).json({message:'Пользователь не найден'});
+    const user = await User.findById(req.auth.userId);
+    if(!user) return res.status(401).json({message: 'Пользователь не существует'});
+    res.status(200).json({id:user._id, email:user.email, links:user.links}); 
+})
 
 module.exports = router;

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-form @submit="registration">
+        <v-form @submit="login">
               <div v-if = "errors.email.length>0">
                 <v-alert 
                   color="red lighten-2" 
@@ -89,23 +89,24 @@ export default {
           this.errors.password = [];
           this.snackbar = false;
           this.loading = true;
-          const fetchJson = await fetch('http://localhost:5000/api/auth/login/', {
-              method:"POST",
-              headers: { 'Content-Type': 'application/json' },
-              body:JSON.stringify({email:this.email, password:this.password})
+          try{
+          let response = await this.$auth.loginWith("local", {
+            data: {email:this.email, password: this.password}
           });
-          const result = await fetchJson.json();
-          if(result.status === true){
-            /// success logining
-                if(result.token) this.$cookies.set("token", result.token);
-                this.$router.replace({path:'/'});
-          } 
-          this.errors.message = result.message;
-          this.snackbar = true;
-
-          if(result.errors && result.errors.length>0) result.errors.forEach(err => {
-            this.errors[err.param].push(err.msg);
-          });
+          await this.$auth.fetchUser();
+          }catch(resWithError){
+            console.log("ERRORS", resWithError.response);
+            const errData = resWithError.response.data;
+            if(resWithError.response.status == 400){
+              this.errors.message = errData.message;
+              // if(errData.errors && errData.errors.length>0) errData.errors.forEach(err => {
+              // this.errors[err.param].push(err.msg);
+              // });
+            }else{
+              this.errors.message = resWithError.message;
+            }
+            this.snackbar = true;
+          }
           this.loading = false;
         }
     }

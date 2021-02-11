@@ -126,7 +126,9 @@ export default {
             });
             const result = await registration_to_server.json();
             if(result.status === true){
-                if(result.token) this.$cookies.set("token", result.token);
+                let response = await this.$auth.loginWith("local", {
+            data: {email:this.email, password: this.password}
+                    });
                 this.$router.replace({path:'/'})
             } 
             this.errors.message = result.message;

@@ -36,7 +36,8 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    // Simple usage
+    '@nuxtjs/auth-next', // добавляем авторизацию
+    '@nuxtjs/axios'
   ],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
@@ -49,6 +50,21 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+
+  auth: {
+    strategies: {
+      local: {
+        token: {
+          required: true,
+          type: 'Bearer',
+          autoFetch:true
+        },
+        endpoints: {
+          login: { url: 'http://localhost:5000/api/auth/login', method: 'post' },
+          user: {url: 'http://localhost:5000/api/auth/user', method: 'get'}
+        }
+      }
+    }
   }
-  
 }
