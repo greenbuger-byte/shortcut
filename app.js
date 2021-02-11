@@ -1,10 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
-const cors = require("cors");
+const cors = require("cors"); // set cors
 const config  = require("config"); // set config
 const PORT = config.get("port") || 5000;
 app.use(cors());
+
 //registration and login
 app.use("/api/auth", require("./routes/auth.routes"));
 

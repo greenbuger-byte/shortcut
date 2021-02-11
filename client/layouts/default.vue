@@ -7,7 +7,9 @@
     <v-row>
 <nuxt-link to="/">ШортКэш</nuxt-link>
    <v-spacer></v-spacer>
+
     <nuxt-link to="/login">Вход</nuxt-link>
+    <nuxt-link to="/register">Регистрация</nuxt-link>
     </v-row>
 
   </v-container>
