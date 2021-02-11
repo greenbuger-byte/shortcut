@@ -1,0 +1,6 @@
+
+{
+    "port":5000,
+    "mongodb":"mongodb+srv://greenbuger:gud231288@cluster0.q1zzh.mongodb.net/shortcut?retryWrites=true&w=majority",
+    "jwtSecret":"hellocut"
+}
