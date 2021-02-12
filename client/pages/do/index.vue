@@ -7,32 +7,32 @@
         <v-col cols="12" md="6">
             <p>Ваши ссылки и статистика будет отображаться на этой странице</p>
                     <v-row>
-                        <h2>Рейтинг ссылок</h2>
+                        <h2>📣 Рейтинг ссылок</h2>
                     </v-row>
                     
                     <v-row v-for="(link, index) in links.links"  :key="index" >
                         
-                        <v-col cols="6"> 
+                        <v-col cols="6" sm="10"> 
                             <v-card style="padding:10px">
-                                <p><a :href="link.from.substr(0, 4)==='http'? link.from : 'http://'+ link.from" target="_blank"  follow="no-follow">{{link.from}}</a>  </p>
+                                <h3><a :href="link.from.substr(0, 4)==='http'? link.from : 'http://'+ link.from" target="_blank"  follow="no-follow">{{link.from}}</a>  </h3>
                                 <p>{{link.to}}</p>
                                 <p><v-chip 
                                         class="ma-2"
                                         color="orange"
                                         label
                                         outlined> 
-                                            <v-icon>mdi-checkbox-marked-circle-outline</v-icon> Кликов: {{link.clicks}}
+                                          👆 Кликов: {{link.clicks}}
                                     </v-chip>
                                     <v-chip 
                                         class="ma-2"
                                         color="orange"
                                         label
                                         outlined> 
-                                            <v-icon>mdi-currency-usd</v-icon> Заработано: 1 399 руб.
+                                             💵 Заработано: 1 399 руб.
                                     </v-chip>
                                 </p>
                             </v-card></v-col>
-                        <v-col cols="6" class="to-colum">
+                        <v-col cols="2" sm="2"  class="to-colum">
                    
                          <v-tooltip right>
                              <template v-slot:activator="{ on, attrs }">    

@@ -1,5 +1,6 @@
 <template>
 <v-app>
+  
   <div class="whiter">
 <v-app-bar color="purple darken-4">
   <v-app-bar-nav-icon></v-app-bar-nav-icon>
@@ -63,10 +64,35 @@
     </v-row>
   </v-container>
 </v-app-bar>
+
+
   </div>
+  
   <!-- Sizes your content based upon application components -->
   <v-main>
+    
     <v-container >
+       <v-breadcrumbs :items=" [
+        {
+          text: 'Dashboard',
+          disabled: false,
+          href: 'breadcrumbs_dashboard',
+        },
+        {
+          text: 'Link 1',
+          disabled: false,
+          href: 'breadcrumbs_link_1',
+        },
+        {
+          text: 'Link 2',
+          disabled: true,
+          href: 'breadcrumbs_link_2',
+        },
+      ]">
+      <template v-slot:divider>
+        <v-icon>mdi-forward</v-icon>
+      </template>
+    </v-breadcrumbs>
       <nuxt/>
     </v-container>
   </v-main>
