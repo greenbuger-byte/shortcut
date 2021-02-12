@@ -1,3 +1,16 @@
 .login-cart{
     padding:10px;
 }
+a{
+    text-decoration: none;
+}
+.text-centered{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height:50px!important;
+}
+.text-centered .v-icon i{
+    font-size: 4px!important;
+}

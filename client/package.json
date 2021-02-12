@@ -2,11 +2,11 @@
   "name": "client",
   "version": "1.0.0",
   "private": true,
-  "proxy":{
-    "/api/auth/register":{
+  "proxy": {
+    "/api/auth/register": {
       "target": "http://localhost:5000"
     }
-    },
+  },
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
@@ -22,7 +22,6 @@
     "nuxt": "^2.14.12",
     "sass-loader": "^11.0.1"
   },
-  
   "devDependencies": {
     "@nuxtjs/eslint-config": "^5.0.0",
     "@nuxtjs/eslint-module": "^3.0.2",

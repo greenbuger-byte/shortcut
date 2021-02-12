@@ -72,7 +72,7 @@ router.get("/user", auth, async(req, res)=>{
     if(!req.auth) return res.status(401).json({message:'Пользователь не найден'});
     const user = await User.findById(req.auth.userId);
     if(!user) return res.status(401).json({message: 'Пользователь не существует'});
-    res.status(200).json({id:user._id, email:user.email, links:user.links}); 
+    res.status(200).json({user:{id:user._id, avatar: user.email.substr(0,1), email:user.email, links:user.links}}); 
 })
 
 module.exports = router;

@@ -46,23 +46,7 @@
               Войти
             </v-btn>
         </v-form>
-        <v-snackbar
-            v-model="snackbar"
-        >
-      {{ errors.message }}
-
-      <template v-slot:action="{ attrs }">
-        <v-btn
-          
-          color="pink"
-          text
-          v-bind="attrs"
-          @click="snackbar = false"
-        >
-          Закрыть
-        </v-btn>
-      </template>
-    </v-snackbar>
+      
     </div>
 </template>
 <script>
@@ -90,18 +74,18 @@ export default {
           this.snackbar = false;
           this.loading = true;
           try{
-          let response = await this.$auth.loginWith("local", {
-            data: {email:this.email, password: this.password}
-          });
-          await this.$auth.fetchUser();
+            await this.$auth.loginWith('local',{
+                data: {email:this.email, password: this.password}
+            });
+            this.$router.push("/");
           }catch(resWithError){
             console.log("ERRORS", resWithError.response);
             const errData = resWithError.response.data;
             if(resWithError.response.status == 400){
               this.errors.message = errData.message;
-              // if(errData.errors && errData.errors.length>0) errData.errors.forEach(err => {
-              // this.errors[err.param].push(err.msg);
-              // });
+              if(errData.errors && errData.errors.length>0) errData.errors.forEach(err => {
+              this.errors[err.param].push(err.msg);
+              });
             }else{
               this.errors.message = resWithError.message;
             }

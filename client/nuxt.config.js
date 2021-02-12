@@ -47,22 +47,22 @@ export default {
       dark: false
     }
   },
-
+  axios: {
+    baseURL: 'http://localhost:5000/api/', // Used as fallback if no runtime config is provided
+  },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   },
-
   auth: {
     strategies: {
       local: {
         token: {
           required: true,
-          type: 'Bearer',
-          autoFetch:true
+          type: 'Bearer'
         },
         endpoints: {
-          login: { url: 'http://localhost:5000/api/auth/login', method: 'post' },
-          user: {url: 'http://localhost:5000/api/auth/user', method: 'get'}
+          login: { url: 'auth/login', method: 'post' },
+          user: {url: 'auth/user', method: 'get'}
         }
       }
     }

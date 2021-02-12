@@ -1,8 +1,9 @@
-export const state = ()=>({
-    // get state object here 
-});
-
-export const mutations = {
-    // get mutations here 
-    // mutation изменяет state напрямую
-}
+export const getters = {
+    isAuthenticated(state) {
+      return state.auth.loggedIn
+    },
+  
+    loggedInUser(state) {
+      return state.auth.user
+    }
+  }
