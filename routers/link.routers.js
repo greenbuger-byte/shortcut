@@ -3,23 +3,24 @@ const Link = require('../models/Link');
 const router = Router();
 const shortid = require('shortid');
 const auth = require("../middlewares/auth.middleware");
-const config = require("../config/default.json");
-
+const config = require("config");
+const jsonParser = json();
 // generate link
-router.post('/generate', auth, async(req, res)=>{
-    try{
+router.post('/generate', [auth, jsonParser], async(req, res)=>{
+    // try{
         const baseUrl = config.get('baseUrl');
-        const {from} = req.body;
+        const {link} = req.body;
         const code = shortid.generate();
-        const existing = await Link.findOne({from});
+        const existing = await Link.findOne({from:link});
         if(existing) return res.json({link: existing});
         const to = baseUrl + '/t/' + code;
-        const link = new Link({ code, to, from, owner:req.auth.userId});
-        await link.save();
-        res.status(201).json(link);
-    }catch(err){
-        return res.status(500).json({message: 'Сервис не отвечает'})
-    }
+        const savedLink = new Link({ code, to, from:link, owner:req.auth.userId});
+        const result = await savedLink.save();
+        console.log(result);
+        res.status(201).json({link:result});
+    // }catch(err){
+    //     return res.status(500).json({message: 'Сервис не отвечает', error: err})
+    // }
 });
 router.get("/", async(req, res)=>{
     try{
@@ -33,14 +34,14 @@ router.get("/", async(req, res)=>{
 //Получаем список ссылок пользователя
 router.get('/my', auth, async(req, res)=>{
     try{
-        const links = await Link.find({owner: req.auth.id});
+        const links = await Link.find({owner: req.auth.userId});
         res.status(200).json({links})
     }catch(err){
         
         return res.status(500).json({message: 'Сервис не отвечает'})
     }
 });
-
+//Одна ссылка
 router.get('/:id', async(req, res)=>{
     try{
         const links = await Link.findById(req.params.id);

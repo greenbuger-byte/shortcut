@@ -65,12 +65,13 @@ export default {
     methods:{
        async saveLink(){
            try{
-                const result = await this.$axios.$post('link/generate', {link:this.link}, {headers:{'Content-Type': 'application/json'}});
+                const result = await this.$axios.$post('link/generate', JSON.stringify({link:this.link}), {headers:{'Content-Type': 'application/json'}});
                 
            }catch(err){
-                console.log(err.response.data.message);
+               const errors = err.response.data;
+                console.log('ERROR', err.response);
                 this.snackbar = true;
-                this.errors = err.response.data.message;
+                this.errors = errors.message;
            }
            
         },
