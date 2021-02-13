@@ -14,3 +14,7 @@ a{
 .text-centered .v-icon i{
     font-size: 4px!important;
 }
+.card{
+    border:1px solid #f5f5f5;
+    border-radius: 5px;
+}

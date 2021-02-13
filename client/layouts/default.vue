@@ -2,10 +2,10 @@
 <v-app>
   
   <div class="whiter">
-<v-app-bar color="purple darken-4">
-  <v-app-bar-nav-icon></v-app-bar-nav-icon>
+<v-app-bar fixed color="purple darken-4">
   <v-container>
-    <v-row><div class="text-centered">
+    <v-row>
+      <div class="text-centered">
 <nuxt-link to="/">
   <img src="https://cutt.ly/img/cuttly.svg" class="logoImage"/>
 </nuxt-link></div>
@@ -31,11 +31,16 @@
    <div>
    </div>
     <div v-if="this.$auth.loggedIn">
-      <v-btn icon>
+     
+      <v-btn icon style="margin-right:20px;"> <v-badge
+          color="green"
+          content="6"
+        >
         <v-icon>
           mdi-bell-outline
-        </v-icon>
+        </v-icon>   </v-badge>
       </v-btn>
+   
     <v-btn 
       depressed>
         <v-avatar
@@ -71,7 +76,7 @@
   <!-- Sizes your content based upon application components -->
   <v-main>
     
-    <v-container >
+    <v-container style="margin-top:60px" >
        <v-breadcrumbs :items=" [
         {
           text: 'Dashboard',
@@ -93,7 +98,20 @@
         <v-icon>mdi-forward</v-icon>
       </template>
     </v-breadcrumbs>
-      <nuxt/>
+    <v-row>  
+
+    
+<v-col cols="3" v-if="this.$auth.loggedIn" style="display:sticky">  
+    <navigation-component/>
+    <income-bar/>
+      <nitification-list-component/>
+       
+      </v-col>
+            <v-col :cols="this.$auth.loggedIn?9:12">
+     <nuxt/>
+      </v-col>  
+    </v-row>
+ 
     </v-container>
   </v-main>
 
@@ -103,7 +121,15 @@
 </v-app>
 </template>
 <script>
+import IncomeBar from '../components/income-bar';
+import NavigationDrawler from "../components/navigation-component";
+import NitificationListComponent from '../components/notifications/nitification-list-component';
 export default {
+  components:{
+    NavigationDrawler,
+    IncomeBar,
+    NitificationListComponent
+  },
 data:()=>({ is_auth: false}),
 methods:{
   logout:()=>{

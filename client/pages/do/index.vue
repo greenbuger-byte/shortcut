@@ -1,20 +1,27 @@
 <template>
     <v-row>
         <v-col cols="12">
-            <h1>Лаборатория ссылок <v-btn to="/do/create" primary><v-icon>mdi-plus-circle-outline</v-icon></v-btn></h1>
+            <h1>📣 Список ссылок</h1>
             
         </v-col>
-        <v-col cols="12" md="6">
-            <p>Ваши ссылки и статистика будет отображаться на этой странице</p>
-                    <v-row>
-                        <h2>📣 Рейтинг ссылок</h2>
-                    </v-row>
-                    
+        <v-col cols="12" md="12">
+          
                     <v-row v-for="(link, index) in links.links"  :key="index" >
-                        
-                        <v-col cols="6" sm="10"> 
-                            <v-card style="padding:10px">
-                                <h3><a :href="link.from.substr(0, 4)==='http'? link.from : 'http://'+ link.from" target="_blank"  follow="no-follow">{{link.from}}</a>  </h3>
+                  
+                        <v-col cols="6" sm="10" > 
+                            <v-card style="padding:10px; border:1px solid #f5f5f5" elevation="0">
+                                <div v-if="Number(Date.parse(link.date))>=Math.floor(Date.parse(Date())-86399)" class="link-new"></div>
+                                <h3>       
+        <a 
+        :href="link.from.substr(0, 4)==='http'? link.from : 'http://'+ link.from" 
+        target="_blank" 
+        :alt="link.from" 
+        :title="link.from"  
+        follow="no-follow"
+        >
+        {{link.from.length>40?link.from.substr(0,40)+'...':link.from}}
+        </a>  
+        </h3>
                                 <p>{{link.to}}</p>
                                 <p><v-chip 
                                         class="ma-2"
@@ -55,7 +62,6 @@
                                 <span>Удалить</span>
                           </v-tooltip>
                         </v-col>
-                         
                     </v-row>
                     
         </v-col>
@@ -76,5 +82,15 @@ export default {
 .to-colum{
     display: flex;
     flex-direction: column;
+}
+.link-new{
+    color: #fff;
+    position: absolute;
+    right:10px;
+    background-color: #E53935;
+    padding: 3px;;
+}
+.link-new::after{
+    content:"Новая"
 }
 </style>

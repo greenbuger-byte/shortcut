@@ -34,7 +34,7 @@ router.get("/", async(req, res)=>{
 //Получаем список ссылок пользователя
 router.get('/my', auth, async(req, res)=>{
     try{
-        const links = await Link.find({owner: req.auth.userId});
+        const links = await (await Link.find({owner: req.auth.userId})).reverse();
         res.status(200).json({links})
     }catch(err){
         
